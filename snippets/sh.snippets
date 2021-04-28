@@ -104,3 +104,18 @@ snippet fun
 	function ${1:function_name}() {
 		${0:#function_body}
 	}
+
+snippet user_confirm
+	function user_confirm()
+	{
+		local msg=$1
+		while true; do
+			read -p "$msg[Yy/Nn]" yn
+			case $yn in
+				[Yy]* ) return 0; break;;
+				[Nn]* ) return 1; break;;
+				* ) echo "Please answer yes[Yy] or no[Nn].";;
+			esac
+		done
+	}
+
