@@ -10,6 +10,28 @@ snippet init
 		return 0;
 	}
 
+snippet init_lib
+	#include <iostream>
+	int my_func(int argc, char **argv)
+	{
+		std::cout << "hello world" << std::endl;
+		return 0;
+	}
+
+snippet init_test
+	#include <gtest/gtest.h>
+
+	TEST(Fixture, Template)
+	{
+		EXPECT_EQ(1,2) << "failed test";
+	}
+	// for using gmack, use snippet gmock
+	// cheetsheet: https://google.github.io/googletest/gmock_cheat_sheet.html
+	// cookbook: https://google.github.io/googletest/gmock_cook_book.html
+
+
+
+
 # write file using fstream
 snippet write_stream
 	#include <fstream>
@@ -26,6 +48,27 @@ snippet read_stream_by_line
 		std::cout << myText;
 	}
 	MyReadFile.close();
+
+snippet get_cmd_output
+	// if you want stderr, just do a redirect
+	#include <stdio.h>
+	#include <string>
+	std::string GetStdoutFromCommand(std::string cmd) {
+	    std::string data;
+	    FILE * stream;
+	    const int max_buffer = 256;
+	    char buffer[max_buffer];
+	    stream = popen(cmd.c_str(), "r");
+	    if (stream) {
+	  	    while (!feof(stream)) {
+	   	        if (fgets(buffer, max_buffer, stream) != nullptr) {
+	                data.append(buffer);
+	            }
+	        }
+	   	    pclose(stream);
+	    }
+	    return data;
+	}
 
 ##
 ## Class

@@ -1,16 +1,29 @@
 snippet init
-	cmake_minimum_required(VERSION ${1:2.8.2})
-	project(${2:ProjectName})
+	cmake_minimum_required(VERSION 3.10)
+	set(PROJECT_NAME example_poject)
+	project(${PROJECT_NAME} CXX)
 
-	find_package(${3:library})
+	set(LIB_NAME example)
+	add_library(${LIB_NAME} SHARED)
+	target_sources(${LIB_NAME} PRIVATE example.cpp)
 
-	include_directories(${$3_INCLUDE_DIRS})
+snippet init_test
+	################ Test ###############################################
+	find_package(GTest REQUIRED)
+	include(CTest)
 
-	add_subdirectory(${0:src})
+	SET(TEST_NAME example_test)
+	add_executable(${TEST_NAME} example_test.cpp)
 
-	add_executable($2)
+	include_directories(${GTEST_INCLUDE_DIR})
+	message(STATUS "including directories: ${GTEST_INCLUDE_DIR}")
 
-	target_link_libraries($2 ${$3_LIBRARIES})
+	target_link_libraries(${TEST_NAME} PRIVATE ${GTEST_BOTH_LIBRARIES} pthread)
+	message(STATUS "linking with libraries ${GTEST_BOTH_LIBRARIES}" pthread)
+
+	gtest_discover_tests(${TEST_NAME})
+
+
 
 snippet proj
 	project(${0:Name})
